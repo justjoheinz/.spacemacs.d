@@ -57,7 +57,13 @@ This function should only modify configuration layer settings."
      ;; spell-checking
      syntax-checking
      ;; version-control
-     treemacs
+     (treemacs :variables
+               treemacs-use-follow-mode t
+               treemacs-use-filewatch-mode t
+               treemacs-use-git-mode 'simple
+               treemacs-use-all-the-icons-theme nil
+               treemacs-use-icons-dired nil
+               treemacs-no-png-images t)
      (scala :variables scala-backend 'scala-metals)
      )
 
@@ -513,16 +519,31 @@ you should place your code here."
                                (setup-pretty-symbols)))
   ;; do not use right alt key as meta meta key
   (setq-default mac-right-option-modifier nil)
+
   ;; do not ask to save becore C-c C-c
   (setq-default compilation-ask-about-save nil)
+
   ;; blink the cursor
   (blink-cursor-mode t)
+
   ;; use local clhs files when using help
   (load "/Users/markusklink/.quicklisp/clhs-use-local.el" t)
+
   ;; use common lisp snippets installed previously
   (require 'common-lisp-snippets)
   (setq-default auto-completion-enable-snippets-in-popup t)
+
+  ;; use symbols such as lambda, alpha, beta,...
   (global-prettify-symbols-mode t)
+
+  ;; setup roswell
+  (setf slime-lisp-implementations
+        `((roswell ("ros" "-Q" "run")))
+        slime-default-lisp 'roswell)
+
+  ;; setup org mode
+  (with-eval-after-load 'org
+    (setq org-directory "~/org"))
 
   )
 
