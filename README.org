@@ -12,3 +12,9 @@
   - scala
 
  and other helper layers.
+
+* Dependencies
+
+  - roswell
+  - fira code font
+  
