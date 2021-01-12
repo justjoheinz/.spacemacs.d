@@ -76,7 +76,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(vi-tilde-fringe rainbow-delimiters ensime)
+   dotspacemacs-excluded-packages '(vi-tilde-fringe rainbow-delimiters ensime dired-icon)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -544,7 +544,6 @@ you should place your code here."
   ;; setup org mode
   (with-eval-after-load 'org
     (setq org-directory "~/org"))
-
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
