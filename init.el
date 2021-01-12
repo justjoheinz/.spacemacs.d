@@ -543,7 +543,12 @@ you should place your code here."
 
   ;; setup org mode
   (with-eval-after-load 'org
-    (setq org-directory "~/org"))
+    (setq org-directory "~/org")
+    (setq org-agenda-files '("~/org"))
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (lisp . t))))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

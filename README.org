@@ -13,8 +13,12 @@
 
  and other helper layers.
 
+* Org
+
+  Org is configured to have its org files and org agenda files in =~/org=.
+  Possibly sym link this with a drop box account.
+ 
 * Dependencies
 
   - roswell
   - fira code font
-  
