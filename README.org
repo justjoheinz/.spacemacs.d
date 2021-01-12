@@ -1,0 +1,14 @@
+* .spacemacs.d
+
+  Configuration files for [[http://spacemacs.org][spacemacs]]. Checkout the develop branch of
+  spacemacs into =.emacs.d= and this repo into =.spacemacs.d=
+
+* Layers
+
+  Configured layers consist mainly of
+  
+  - org mode
+  - common lisp (requires roswell)
+  - scala
+
+ and other helper layers.
