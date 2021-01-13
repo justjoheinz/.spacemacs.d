@@ -537,9 +537,11 @@ you should place your code here."
   (global-prettify-symbols-mode t)
 
   ;; setup roswell
+  (load (expand-file-name "~/.roswell/helper.el"))
   (setf slime-lisp-implementations
         `((roswell ("ros" "-Q" "run")))
         slime-default-lisp 'roswell)
+  (setq inferior-lisp-program "ros -Q run")
 
   ;; setup org mode
   (with-eval-after-load 'org
