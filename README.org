@@ -6,7 +6,7 @@
 * Layers
 
   Configured layers consist mainly of
-  
+
   - org mode
   - common lisp (requires roswell)
   - scala
@@ -17,9 +17,8 @@
 
   Org is configured to have its org files and org agenda files in =~/org=.
   Possibly sym link this with a drop box account.
- 
+
 * Dependencies
 
   - roswell
   - fira code font
-

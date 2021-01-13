@@ -551,6 +551,9 @@ you should place your code here."
      'org-babel-load-languages
      '((emacs-lisp . t)
        (lisp . t))))
+
+  ;; delete whitespace at end of file before save
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
