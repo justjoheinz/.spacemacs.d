@@ -51,6 +51,8 @@ This function should only modify configuration layer settings."
      multiple-cursors
      latex
      (org :variables
+          org-pretty-entities t
+          org-pretty-entities-include-sub-superscripts t
           org-enable-github-support t
           org-enable-roam-support t
           org-enable-reveal-js-support t
@@ -509,6 +511,12 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
   )
 
+(defun show-org-roam ()
+  "Show the org-roam buffer if it does not exist yet."
+  (unless (get-buffer "*org-roam*")
+    (org-roam)))
+
+
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
@@ -564,12 +572,21 @@ you should place your code here."
 
   ;; delete whitespace at end of file before save
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+  ;; add brain ids -- maybe remove
   (add-hook 'before-save-hook 'org-brain-ensure-ids-in-buffer)
+
+  ;;
   (add-hook 'after-init-hook 'org-roam-mode)
+
+  ;; add automatic line wrapping
   (add-hook 'text-mode-hook 'olivetti-mode)
+
+  ;; start the server on port 8080
   (add-hook 'org-mode-hook 'org-roam-server-mode)
-  (add-hook 'org-mode-hook 'org-roam)
+  (add-hook 'org-mode-hook 'show-org-roam)
   )
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
