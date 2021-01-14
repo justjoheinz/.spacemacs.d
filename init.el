@@ -568,6 +568,7 @@ you should place your code here."
   (add-hook 'after-init-hook 'org-roam-mode)
   (add-hook 'text-mode-hook 'olivetti-mode)
   (add-hook 'org-mode-hook 'org-roam-server-mode)
+  (add-hook 'org-mode-hook 'org-roam)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
