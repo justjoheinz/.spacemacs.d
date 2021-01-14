@@ -558,6 +558,7 @@ you should place your code here."
 
   ;; delete whitespace at end of file before save
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'before-save-hook 'org-brain-ensure-ids-in-buffer)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

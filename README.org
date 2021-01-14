@@ -7,7 +7,7 @@
 
   Configured layers consist mainly of
 
-  - org mode
+  - org mode (including org roam)
   - common lisp (requires roswell)
   - scala
 
