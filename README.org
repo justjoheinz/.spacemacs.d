@@ -16,7 +16,8 @@
 ** Import keyboard shortcuts
 
    =SPC a o j j= adds a journal entry for the day.
-
+   =SPC a o r f= find roam files
+   =SPC a o r i= insert roam link
 * Org
 
   Org is configured to have its org files and org agenda files in =~/org=.
