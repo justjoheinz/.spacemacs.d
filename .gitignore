@@ -1,2 +1,5 @@
 .spacemacs.env
 *~
+*.tex
+*.pdf
+auto/
