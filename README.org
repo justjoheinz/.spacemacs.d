@@ -15,11 +15,18 @@
 
 * Import keyboard shortcuts
 
-  - =SPC a o r d t= :: adds a journal entry for the day
-  - =SPC a o r f= :: find roam files
-  - =SPC a o r i= :: insert roam link
-  - =SPC a o o n= :: view org agenda agenda and todo items
-  - =M-S-Ret= :: enter a new todo item
+** org-mode/org-roam
+
+   - =SPC a o r d t= :: adds a journal entry for the day
+   - =SPC a o r f= :: find roam files
+   - =SPC a o r i= :: insert roam link
+   - =SPC a o o n= :: view org agenda agenda and todo items
+   - =M-S-Ret= :: enter a new todo item
+
+** Git
+
+   - =SPC g s= :: git status (? for command list)
+   - =SPC g m= :: git magic dispatch (transient git state)
 
 * Org
 
