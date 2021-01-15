@@ -13,19 +13,23 @@
 
  and other helper layers.
 
-** Import keyboard shortcuts
+* Import keyboard shortcuts
 
-   =SPC a o j j= adds a journal entry for the day.
-   =SPC a o r f= find roam files
-   =SPC a o r i= insert roam link
+  - =SPC a o r d t= :: adds a journal entry for the day
+  - =SPC a o r f= :: find roam files
+  - =SPC a o r i= :: insert roam link
+  - =SPC a o o n= :: view org agenda agenda and todo items
+  - =M-S-Ret= :: enter a new todo item
+
 * Org
 
   Org is configured to have its org files and org agenda files in =~/org=.
   Possibly sym link this with a drop box account.
 
-* TODO Investigate locale
+* TODOS
+** TODO Investigate locale
 
-  GUI emacs and console emacs use different date formatting in journal mode. Investigate why.
+   GUI emacs and console emacs use different date formatting in journal mode. Investigate why.
 
 
 * Dependencies
