@@ -56,7 +56,6 @@ This function should only modify configuration layer settings."
           org-enable-github-support t
           org-enable-roam-support t
           org-enable-reveal-js-support t
-          org-enable-org-journal-support t
           org-projectile-file "TODOs.org")
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -78,12 +77,12 @@ This function should only modify configuration layer settings."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(common-lisp-snippets olivetti org-roam-server)
+   dotspacemacs-additional-packages '(common-lisp-snippets olivetti org-roam-server ob-ammonite ammonite-term-repl)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(vi-tilde-fringe rainbow-delimiters ensime dired-icon)
+   dotspacemacs-excluded-packages '(vi-tilde-fringe org-brain rainbow-delimiters ensime dired-icon)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -173,7 +172,7 @@ It should only modify the values of Spacemacs settings."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'hybrid
+   dotspacemacs-editing-style 'vim
    ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
    dotspacemacs-verbose-loading nil
    ;; Specify the startup banner. Default value is `official', it displays
@@ -556,25 +555,44 @@ you should place your code here."
         slime-default-lisp 'roswell)
   (setq inferior-lisp-program "ros -Q run")
 
+
+  ;; setup ammonite
+  (setq ob-ammonite-prompt-str "scala>")
+
   ;; setup org mode
   (with-eval-after-load 'org
     (setq org-directory "~/org")
-    (setq org-agenda-files '("~/org"))
-    (setq org-journal-dir "~/org/journal/")
-    (setq org-journal-file-format "%Y-%m-%d")
+    (setq org-agenda-files '("~/org" "~/org/roam"))
     (setq org-roam-directory "~/org/roam")
+    ;; setup latex classes as komascript classes
+    (setq org-latex-classes '(("article" "\\documentclass[11pt]{scrartcl}"
+                          ("\\section{%s}" . "\\section*{%s}")
+                          ("\\subsection{%s}" . "\\subsection*{%s}")
+                          ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                          ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                          ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                         ("report" "\\documentclass[11pt]{scrreport}"
+                          ("\\part{%s}" . "\\part*{%s}")
+                          ("\\chapter{%s}" . "\\chapter*{%s}")
+                          ("\\section{%s}" . "\\section*{%s}")
+                          ("\\subsection{%s}" . "\\subsection*{%s}")
+                          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                         ("book" "\\documentclass[11pt]{scrbook}"
+                          ("\\part{%s}" . "\\part*{%s}")
+                          ("\\chapter{%s}" . "\\chapter*{%s}")
+                          ("\\section{%s}" . "\\section*{%s}")
+                          ("\\subsection{%s}" . "\\subsection*{%s}")
+                          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
-       (lisp . t))))
+       (lisp . t)
+       (shell . t))))
 
   (setq olivetti-body-width 80)
 
   ;; delete whitespace at end of file before save
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-  ;; add brain ids -- maybe remove
-  (add-hook 'before-save-hook 'org-brain-ensure-ids-in-buffer)
 
   ;;
   (add-hook 'after-init-hook 'org-roam-mode)
@@ -601,8 +619,10 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-want-Y-yank-to-eol nil)
+ '(org-agenda-files
+   '("~/.spacemacs.d/README.org" "/Users/markusklink/org/notes.org" "/Users/markusklink/org/shopping.org" "/Users/markusklink/org/roam/20210114175721-frida.org" "/Users/markusklink/org/roam/20210114175911-clients.org" "/Users/markusklink/org/roam/20210114181251-index.org" "/Users/markusklink/org/roam/20210114182814-concepts.org" "/Users/markusklink/org/roam/20210114184608-ecoincome.org" "/Users/markusklink/org/roam/20210114213002-kaufhof.org" "/Users/markusklink/org/roam/20210114213052-breuninger.org" "/Users/markusklink/org/roam/20210114221200-todos.org" "/Users/markusklink/org/roam/20210114221801-people.org" "/Users/markusklink/org/roam/20210115100141-zio.org" "/Users/markusklink/org/roam/20210115133648-ammoniterepl.org"))
  '(package-selected-packages
-   '(olivetti org-journal emacsql-sqlite3 org-re-reveal yasnippet-snippets yaml-mode ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slime-company slim-mode scss-mode scala-mode sbt-mode sass-mode reveal-in-osx-finder restart-emacs pug-mode prettier-js popwin pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file nameless mvn move-text mmm-mode meghanada maven-test-mode markdown-toc magit-svn magit-section magit-gitflow lsp-ui lsp-origami lsp-metals lsp-latex lsp-java lorem-ipsum link-hint launchctl indent-guide impatient-mode hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy forge font-lock+ flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-cleverparens evil-args evil-anzu eval-sexp-fu emr emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs csv-mode company-web company-reftex company-math company-auctex common-lisp-snippets column-enforce-mode clean-aindent-mode centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
+   '(ob-ammonite xterm-color ammonite-term-repl olivetti org-journal emacsql-sqlite3 org-re-reveal yasnippet-snippets yaml-mode ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights uuidgen use-package undo-tree treemacs-projectile treemacs-persp treemacs-magit treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slime-company slim-mode scss-mode scala-mode sbt-mode sass-mode reveal-in-osx-finder restart-emacs pug-mode prettier-js popwin pcre2el password-generator paradox overseer osx-trash osx-dictionary osx-clipboard orgit org-superstar org-rich-yank org-projectile org-present org-pomodoro org-mime org-download org-cliplink org-brain open-junk-file nameless mvn move-text mmm-mode meghanada maven-test-mode markdown-toc magit-svn magit-section magit-gitflow lsp-ui lsp-origami lsp-metals lsp-latex lsp-java lorem-ipsum link-hint launchctl indent-guide impatient-mode hybrid-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-swoop helm-purpose helm-projectile helm-org-rifle helm-org helm-mode-manager helm-make helm-lsp helm-ls-git helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag groovy-mode groovy-imports google-translate golden-ratio gnuplot gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy forge font-lock+ flycheck-pos-tip flycheck-package flycheck-elsa flx-ido fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-org evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-easymotion evil-cleverparens evil-args evil-anzu eval-sexp-fu emr emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode dired-quick-sort diminish devdocs csv-mode company-web company-reftex company-math company-auctex common-lisp-snippets column-enforce-mode clean-aindent-mode centered-cursor-mode auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent ace-link ace-jump-helm-line ac-ispell)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
