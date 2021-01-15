@@ -604,6 +604,7 @@ you should place your code here."
 
   ;; start the server on port 8080
   (add-hook 'org-mode-hook 'org-roam-server-mode)
+  (add-hook 'kill-emacs-hook 'server-force-delete)
   (add-hook 'org-mode-hook 'show-org-roam)
   )
 
