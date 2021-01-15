@@ -562,9 +562,11 @@ you should place your code here."
   ;; setup org mode
   (with-eval-after-load 'org
     (setq org-directory "~/org")
-    (setq org-agenda-files '("~/org" "~/org/roam"))
+    (setq org-agenda-files '("~/org" "~/org/roam" "~/org/roam/daily"))
     (setq org-roam-directory "~/org/roam")
     ;; setup latex classes as komascript classes
+    (add-to-list 'org-latex-packages-alist
+                 '("AUTO" "babel" t ("pdflatex")))
     (setq org-latex-classes '(("article" "\\documentclass[11pt]{scrartcl}"
                           ("\\section{%s}" . "\\section*{%s}")
                           ("\\subsection{%s}" . "\\subsection*{%s}")
