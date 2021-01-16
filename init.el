@@ -602,6 +602,9 @@ you should place your code here."
   ;; add automatic line wrapping
   (add-hook 'text-mode-hook 'olivetti-mode)
 
+  ;; start in maximized mode
+  (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
   ;; start the server on port 8080
   (add-hook 'org-mode-hook 'org-roam-server-mode)
   (add-hook 'kill-emacs-hook 'server-force-delete)
