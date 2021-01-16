@@ -560,6 +560,7 @@ you should place your code here."
   (setq ob-ammonite-prompt-str "scala>")
 
   ;; setup org mode
+  ;; changes to this section require a restart
   (with-eval-after-load 'org
     (setq org-directory "~/org")
     (setq org-agenda-files '("~/org" "~/org/roam" "~/org/roam/daily"))
@@ -567,6 +568,8 @@ you should place your code here."
     ;; setup latex classes as komascript classes
     (add-to-list 'org-latex-packages-alist
                  '("AUTO" "babel" t ("pdflatex")))
+    (setq org-tag-alist '(("private"    . ?p)
+                          ("work"    . ?w)))
     (setq org-latex-classes '(("article" "\\documentclass[11pt]{scrartcl}"
                           ("\\section{%s}" . "\\section*{%s}")
                           ("\\subsection{%s}" . "\\subsection*{%s}")

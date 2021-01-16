@@ -22,6 +22,7 @@
    - =SPC a o r i= :: insert roam link
    - =SPC a o o n= :: view org agenda agenda and todo items
    - =M-S-Ret= :: enter a new todo item
+   - =C-C C-q= :: set tag for note/task/headline
 
 ** Git
 
