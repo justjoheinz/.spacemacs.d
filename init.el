@@ -82,7 +82,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(vi-tilde-fringe org-brain rainbow-delimiters ensime dired-icon)
+   dotspacemacs-excluded-packages '(vi-tilde-fringe org-brain rainbow-delimiters ensime dired-icon all-the-icons)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -523,6 +523,11 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  ;; set the first day of the calendar to Monday
+  (setq calendar-week-start-day 1)
+
+  ;; add pretty symbols
   (add-hook 'prettify-symbols-mode-hook (lambda ()
                                           (message "execute prettify-symbols-hook")
                                           (setup-pretty-symbols)))
