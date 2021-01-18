@@ -604,7 +604,7 @@ you should place your code here."
        (lisp . t)
        (shell . t))))
 
-  (setq olivetti-body-width 80)
+  (setq olivetti-body-width 100)
 
   ;; delete whitespace at end of file before save
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
