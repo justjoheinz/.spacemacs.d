@@ -23,6 +23,7 @@
    - =SPC a o o n= :: view org agenda agenda and todo items
    - =M-S-Ret= :: enter a new todo item
    - =C-C C-q= :: set tag for note/task/headline
+   - =, s S= :: Sort entries under headline
 
 ** Git
 
@@ -38,7 +39,8 @@
 ** TODO Investigate locale
 
    GUI emacs and console emacs use different date formatting in journal mode. Investigate why.
-
+** TODO Revert to org-journal
+   SCHEDULED: <2021-01-22 Fr>
 
 * Dependencies
 

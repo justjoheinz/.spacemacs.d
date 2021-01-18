@@ -55,6 +55,7 @@ This function should only modify configuration layer settings."
           org-pretty-entities-include-sub-superscripts t
           org-enable-github-support t
           org-enable-roam-support t
+          org-enable-org-journal-support t
           org-enable-reveal-js-support t
           org-projectile-file "TODOs.org")
      ;; (shell :variables
@@ -524,6 +525,9 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; set the default LOCALE
+  (set-locale-environment "de_DE")
+
   ;; set the first day of the calendar to Monday
   (setq calendar-week-start-day 1)
 
@@ -560,7 +564,6 @@ you should place your code here."
         slime-default-lisp 'roswell)
   (setq inferior-lisp-program "ros -Q run")
 
-
   ;; setup ammonite
   (setq ob-ammonite-prompt-str "scala>")
 
@@ -568,6 +571,7 @@ you should place your code here."
   ;; changes to this section require a restart
   (with-eval-after-load 'org
     (setq org-directory "~/org")
+    (setq org-journal-dir "~/org/journal")
     (setq org-agenda-files '("~/org" "~/org/roam" "~/org/roam/daily"))
     (setq org-roam-directory "~/org/roam")
     ;; setup latex classes as komascript classes
@@ -593,6 +597,7 @@ you should place your code here."
                           ("\\section{%s}" . "\\section*{%s}")
                           ("\\subsection{%s}" . "\\subsection*{%s}")
                           ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
