@@ -83,7 +83,7 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(vi-tilde-fringe org-brain rainbow-delimiters ensime dired-icon)
+   dotspacemacs-excluded-packages '(vi-tilde-fringe org-brain rainbow-delimiters ensime dired-icon org-roam-dailies org-brain)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -567,6 +567,9 @@ you should place your code here."
   ;; setup ammonite
   (setq ob-ammonite-prompt-str "scala>")
 
+  (server-start)
+  (require 'org-protocol)
+
   ;; setup org mode
   ;; changes to this section require a restart
   (with-eval-after-load 'org
@@ -574,7 +577,7 @@ you should place your code here."
     (setq org-journal-dir "~/org/journal")
     (setq org-journal-enable-agenda-integration t)
     (setq org-journal-time-format "")
-    (setq org-agenda-files '("~/org" "~/org/roam" "~/org/roam/daily"))
+    (setq org-agenda-files '("~/org" "~/org/roam"))
     (setq org-roam-directory "~/org/roam")
     ;; setup latex classes as komascript classes
     (add-to-list 'org-latex-packages-alist
