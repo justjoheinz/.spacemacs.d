@@ -502,6 +502,7 @@ executes.
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setup-pretty-symbols)
+  (add-to-list 'exec-path "/usr/local/bin")
   )
 
 (defun dotspacemacs/user-load ()
@@ -563,7 +564,7 @@ you should place your code here."
   (global-prettify-symbols-mode t)
 
   ;; setup roswell
-  ;; (load (expand-file-name "~/.roswell/helper.el"))
+  (load (expand-file-name "~/.roswell/helper.el"))
   (setf slime-lisp-implementations
         `((roswell ("ros" "-Q" "run")))
         slime-default-lisp 'roswell)
