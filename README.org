@@ -1,3 +1,6 @@
+#+options: toc:nil  pri:t title:nil num:nil
+#+language: de
+
 * .spacemacs.d
 
   Configuration files for [[http://spacemacs.org][spacemacs]]. Checkout the develop branch of
@@ -24,6 +27,16 @@
    - =M-S-Ret= :: enter a new todo item
    - =C-C C-q= :: set tag for note/task/headline
    - =, s S= :: Sort entries under headline
+   - =M-Ret M-Ret= :: insert an element of the same type
+
+
+** Task clocking
+   [[https://orgmode.org/manual/Clocking-commands.html#Clocking-commands]]
+
+   - =C-c C-x C-i= :: Clock in
+   - =C-c C-x C-o= :: Clock out
+   - =C-c C-x C-q= :: Clock cancel
+   - =C-c C-x C-d= :: display clock
 
 ** Git
 
@@ -37,12 +50,23 @@
 
 * TODOS
 ** TODO Investigate locale
-
-   GUI emacs and console emacs use different date formatting in journal mode. Investigate why.
-** TODO Revert to org-journal
-   SCHEDULED: <2021-01-22 Fr>
+   - Note taken on [2021-01-19 Di 14:38] \\
+     Inspect environment with =M-x getenv=.
+   - Note taken on [2021-01-18 Mo 16:35] \\
+     GUI emacs and console emacs use different date formatting in journal mode. Investigate why.
+** DONE Revert to org-journal
+   CLOSED: [2021-01-18 Mo 16:34] SCHEDULED: <2021-01-22 Fr>
 
 * Dependencies
+  Script to install dependencies:
 
-  - roswell
-  - fira code font
+    #+begin_example
+    brew install roswell basictex font-fira-code
+
+    sudo tlmgr update --self
+    sudo tlmgr install koma-script
+    sudo tlmgr install wrapfig
+    sudo tlmgr install capt-of
+
+    # roswell commands to install sbcl, slime...
+    #+end_example
