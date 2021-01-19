@@ -516,6 +516,11 @@ dump."
   (unless (get-buffer "*org-roam*")
     (org-roam)))
 
+(defun transform-square-brackets-to-round-ones(string-to-transform)
+  "Transforms [ into ( and ] into ), other chars left unchanged."
+  (concat
+   (mapcar #'(lambda (c) (if (equal c ?[) ?\( (if (equal c ?]) ?\) c))) string-to-transform)))
+
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
@@ -558,7 +563,7 @@ you should place your code here."
   (global-prettify-symbols-mode t)
 
   ;; setup roswell
-  (load (expand-file-name "~/.roswell/helper.el"))
+  ;; (load (expand-file-name "~/.roswell/helper.el"))
   (setf slime-lisp-implementations
         `((roswell ("ros" "-Q" "run")))
         slime-default-lisp 'roswell)
@@ -568,17 +573,26 @@ you should place your code here."
   (setq ob-ammonite-prompt-str "scala>")
 
   (server-start)
-  (require 'org-protocol)
+
 
   ;; setup org mode
   ;; changes to this section require a restart
   (with-eval-after-load 'org
-    (setq org-directory "~/org")
-    (setq org-journal-dir "~/org/journal")
+    (require 'org-protocol)
+    (add-to-list 'org-modules 'org-protocol)
+    (setq org-directory "~/org/")
+    (setq org-journal-dir "~/org/journal/")
     (setq org-journal-enable-agenda-integration t)
     (setq org-journal-time-format "")
     (setq org-agenda-files '("~/org" "~/org/roam"))
     (setq org-roam-directory "~/org/roam")
+    (setq org-capture-templates `(("t" "Todo" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Tasks")
+                                   "* TODO %?\n  %i\n  %a")
+	                                ("p" "Protocol (URL + clipboard)" entry (file+headline ,(expand-file-name "inbox.org" org-directory) "Inbox")
+                                   "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
+	                                ("L" "Protocol Link (URL only)" entry (file+headline ,(expand-file-name "inbox.org" org-directory) "Inbox")
+                                   "* %? [[%:link][%:description]] \nCaptured On: %U")
+                                  ))
     ;; setup latex classes as komascript classes
     (add-to-list 'org-latex-packages-alist
                  '("AUTO" "babel" t ("pdflatex")))
