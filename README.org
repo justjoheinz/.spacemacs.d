@@ -61,8 +61,14 @@
   Script to install dependencies:
 
     #+begin_example
+    brew tap d12frosted/emacs-plus
+    brew install emacs-plus@27
     brew install roswell basictex font-fira-code
+    brew services start emacs-plus@27
 
+    # Install EmacsClient.app from org directory
+    # Install org capture chrome extension from Google Web Store
+    
     sudo tlmgr update --self
     sudo tlmgr install koma-script
     sudo tlmgr install wrapfig
