@@ -503,6 +503,9 @@ before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
   (setup-pretty-symbols)
   (add-to-list 'exec-path "/usr/local/bin")
+  (customize-set-variable
+   'custom-file (file-truename (concat dotspacemacs-directory "custom.el")) "Separate custom file")
+  (load custom-file)
   )
 
 (defun dotspacemacs/user-load ()
