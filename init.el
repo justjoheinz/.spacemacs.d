@@ -632,7 +632,7 @@ you should place your code here."
   (add-hook 'org-journal-after-header-create-hook
             (lambda ()
               (save-excursion
-                (let ((template "\n\n#+BEGIN: clocktable :scope subtree :maxlevel 2\n#+END:"))
+                (let ((template "\n\n#+BEGIN: clocktable :scope subtree :maxlevel 2\n#+END:\n\n[[https://odoo.inoio.de/web?#page=0&limit=80&view_type=list&model=hr.analytic.timesheet&action=731][goto ODOO]]"))
                   (end-of-buffer)
                   (unless (search-backward template nil t)
                     (insert template "\n\n"))))))
