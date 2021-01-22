@@ -655,6 +655,13 @@ you should place your code here."
   (add-hook 'org-mode-hook 'org-roam-server-mode)
   (add-hook 'kill-emacs-hook 'server-force-delete)
   (add-hook 'org-mode-hook 'show-org-roam)
+
+  ;; UTF-8 support
+  (set-language-environment 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (prefer-coding-system 'utf-8)
   )
 
 
