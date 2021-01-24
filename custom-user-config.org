@@ -154,5 +154,4 @@ Support languages for literate programming in org-mode.
    Some modes should be required, so that they are available immediately without being lazily loaded.
 
    #+begin_src emacs-lisp
-
    #+end_src

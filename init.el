@@ -76,12 +76,6 @@ This function should only modify configuration layer settings."
                treemacs-no-png-images t)
      )
 
-   ;; conditionally add osx x layer
-   (when (spacemacs/system-is-mac)
-     (append dotspacemacs-configuration-layers
-             '(osx :variables
-                   mac-right-option-modifier nil)))
-
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
@@ -99,7 +93,15 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-only)
+
+  ;; conditionally add osx x layer
+  (when (spacemacs/system-is-mac)
+    (message "Configure OS X layer.")
+    (push '(osx :variables
+                  osx-option-as 'meta
+                  osx-right-option-as 'none) dotspacemacs-configuration-layers))
+  )
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -547,7 +549,7 @@ you should place your code here."
   (require 'org)
   (org-babel-load-file (expand-file-name "custom-user-config.org" dotspacemacs-directory))
 
-   (add-hook 'org-journal-after-header-create-hook
+  (add-hook 'org-journal-after-header-create-hook
             (lambda ()
               (save-excursion
                 (let ((template "\n\n#+BEGIN: clocktable :scope subtree :maxlevel 2\n#+END:\n\n[[https://odoo.inoio.de/web?#page=0&limit=80&view_type=list&model=hr.analytic.timesheet&action=731][goto ODOO]]"))
@@ -575,14 +577,3 @@ you should place your code here."
   (add-hook 'org-mode-hook 'show-org-roam)
 
   )
-
-
-;; Do not write anything past this comment. This is where Emacs will
-;; auto-generate custom variable definitions.
-(defun dotspacemacs/emacs-custom-settings ()
-  "Emacs custom settings.
-This is an auto-generated function, do not modify its content directly, use
-Emacs customize menu instead.
-This function is called at the very end of Spacemacs initialization."
-
-)
