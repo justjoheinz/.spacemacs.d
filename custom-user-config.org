@@ -1,0 +1,158 @@
+#+options: title:nil toc:nil
+
+* Custom user-config
+
+This file contains additional configurations which would go into =dotspacemacs/user-config=.
+
+Before we start, just add some logging that we are processing this file:
+
+#+begin_src emacs-lisp
+(message "processing custom-user-config.org")
+#+end_src
+
+** UTF-8 setup
+
+Setup the default encoding for buffers and files.
+
+#+begin_src emacs-lisp
+  (set-language-environment 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (prefer-coding-system 'utf-8)
+#+end_src
+
+** Mac OS specific settings
+
+Configuration of the Mac OS X layer and keybinding of the the right Alt-key takes places in [[file:init.el][init.el]].
+
+** Common Lisp settings
+
+Setup roswell and lisp implementations. Defaults to sbcl.
+
+#+begin_src emacs-lisp
+  (require 'common-lisp-snippets)
+  ;; configure spacemacs to use snippets
+  (setq auto-completion-enable-snippets-in-popup t)
+  ;; setup roswell
+  (load (expand-file-name "~/.roswell/helper.el"))
+  (setf slime-lisp-implementations
+        `((roswell ("ros" "-Q" "run")))
+        slime-default-lisp 'roswell)
+  (setq inferior-lisp-program "ros -Q run")
+#+end_src
+
+** Set up various environment settings
+
+- blink the cursor
+- do not ask before compiling if buffer should be saved
+
+#+begin_src emacs-lisp
+  (blink-cursor-mode t)
+  (setq-default compilation-ask-about-save nil)
+#+end_src
+
+** Setup pretty mode
+
+#+begin_src emacs-lisp
+  ;; add pretty symbols
+  (add-hook 'prettify-symbols-mode-hook
+            (lambda ()
+              (setup-pretty-symbols)))
+  (add-hook 'prog-mode-hook
+            (lambda ()
+              (setup-pretty-symbols)))
+
+  (global-prettify-symbols-mode t)
+#+end_src
+
+** Misc. settings
+#+begin_src emacs-lisp
+  (setq olivetti-body-width 100)
+#+end_src
+
+** Org Mode
+
+*** Main package
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "Configure org-main")
+    (setq org-tag-alist '(("private" . ?p)
+                          ("work"    . ?w))
+          org-agenda-files '("~/org/" "~/org/roam/" "~/org/journal/")
+          org-agenda-include-diary nil
+          org-habit-graph-column 50
+          org-clock-persist t)
+    (org-clock-persistence-insinuate)
+  )
+#+end_src
+*** org-journal
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "Configure org-journal")
+    (setq org-journal-time-format ""
+          org-journal-skip-carryover-drawers (list "LOGBOOK"))
+  )
+#+end_src
+*** org-capture
+Setup templates for org-capture
+
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "Configure org-capture")
+    (setq org-capture-templates
+          `(("t" "Todo" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Tasks")
+             "* TODO %?\n  %i\n  %a")
+            )))
+ #+end_src
+*** Re-Reveal
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org-re-reveal
+    (message "Configure org-re-reveal")
+    (setq org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
+          org-re-reveal-revealjs-version "4"))
+#+end_src
+*** Latex
+Setup org-mode latex export for koma-script and add the babel package as a default so that language settings are supported.
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "Configure org-latex")
+    (setq org-latex-classes '(("article" "\\documentclass[11pt]{scrartcl}"
+                               ("\\section{%s}" . "\\section*{%s}")
+                               ("\\subsection{%s}" . "\\subsection*{%s}")
+                               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+                              ("report" "\\documentclass[11pt]{scrreport}"
+                               ("\\part{%s}" . "\\part*{%s}")
+                               ("\\chapter{%s}" . "\\chapter*{%s}")
+                               ("\\section{%s}" . "\\section*{%s}")
+                               ("\\subsection{%s}" . "\\subsection*{%s}")
+                               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
+                              ("book" "\\documentclass[11pt]{scrbook}"
+                               ("\\part{%s}" . "\\part*{%s}")
+                               ("\\chapter{%s}" . "\\chapter*{%s}")
+                               ("\\section{%s}" . "\\section*{%s}")
+                               ("\\subsection{%s}" . "\\subsection*{%s}")
+                               ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
+     (add-to-list 'org-latex-packages-alist
+                  '("AUTO" "babel" t ("pdflatex"))))
+#+end_src
+*** org-babel
+Support languages for literate programming in org-mode.
+#+begin_src emacs-lisp
+  (with-eval-after-load 'org
+    (message "Configure org-babel")
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (lisp . t)
+       (shell . t))))
+#+end_src
+** Preload frequently required packages
+
+   Some modes should be required, so that they are available immediately without being lazily loaded.
+
+   #+begin_src emacs-lisp
+
+   #+end_src

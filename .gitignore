@@ -4,3 +4,4 @@
 *.pdf
 auto/
 custom.el
+custom-user-config.el

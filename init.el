@@ -44,7 +44,6 @@ This function should only modify configuration layer settings."
      auto-completion
      ;; better-defaults
      common-lisp
-     osx
      emacs-lisp
      git
      markdown
@@ -56,7 +55,11 @@ This function should only modify configuration layer settings."
           org-enable-github-support t
           org-enable-roam-support t
           org-enable-org-journal-support t
+          org-journal-enable-agenda-integration t
           org-enable-reveal-js-support t
+          org-directory "~/org/"
+          org-journal-dir "~/org/journal/"
+          org-roam-directory "~/org/roam/"
           org-projectile-file "TODOs.org")
      ;; (shell :variables
      ;;        shell-default-height 30
@@ -71,14 +74,19 @@ This function should only modify configuration layer settings."
                treemacs-use-all-the-icons-theme nil
                treemacs-use-icons-dired nil
                treemacs-no-png-images t)
-     (scala :variables scala-backend 'scala-metals)
      )
+
+   ;; conditionally add osx x layer
+   (when (spacemacs/system-is-mac)
+     (append dotspacemacs-configuration-layers
+             '(osx :variables
+                   mac-right-option-modifier nil)))
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '(common-lisp-snippets olivetti org-roam-server ob-ammonite ammonite-term-repl)
+   dotspacemacs-additional-packages '(common-lisp-snippets olivetti org-roam-server)
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
 
@@ -534,102 +542,12 @@ you should place your code here."
   ;; set the first day of the calendar to Monday
   (setq calendar-week-start-day 1)
 
-  ;; add pretty symbols
-  (add-hook 'prettify-symbols-mode-hook (lambda ()
-                                          (message "execute prettify-symbols-hook")
-                                          (setup-pretty-symbols)))
-  (add-hook 'prog-mode-hook  (lambda ()
-                               (message "execute prog-mode-hook")
-                               (setup-pretty-symbols)))
-  ;; do not use right alt key as meta meta key
-  (setq-default mac-right-option-modifier nil)
-
-  ;; do not ask to save becore C-c C-c
-  (setq-default compilation-ask-about-save nil)
-
-  ;; blink the cursor
-  (blink-cursor-mode t)
-
-  ;; use local clhs files when using help
-  (load "/Users/markusklink/.quicklisp/clhs-use-local.el" t)
-
-  ;; use common lisp snippets installed previously
-  (require 'common-lisp-snippets)
-  (setq-default auto-completion-enable-snippets-in-popup t)
-
-  ;; use symbols such as lambda, alpha, beta,...
-  (global-prettify-symbols-mode t)
-
-  ;; setup roswell
-  (load (expand-file-name "~/.roswell/helper.el"))
-  (setf slime-lisp-implementations
-        `((roswell ("ros" "-Q" "run")))
-        slime-default-lisp 'roswell)
-  (setq inferior-lisp-program "ros -Q run")
-
-  ;; setup ammonite
-  (setq ob-ammonite-prompt-str "scala>")
-
-  (server-start)
-
-
-  ;; setup org mode
-  ;; changes to this section require a restart
-  (with-eval-after-load 'org
-    (require 'org-protocol)
-    (add-to-list 'org-modules 'org-protocol)
-    (setq org-directory "~/org/")
-    (setq org-journal-dir "~/org/journal/")
-    ;; do not carry over entries with clocked time
-    (setq org-journal-skip-carryover-drawers (list "LOGBOOK"))
-    (setq org-journal-enable-agenda-integration t)
-    (setq org-journal-time-format "")
-    (setq org-agenda-files '("~/org" "~/org/roam"))
-    (setq org-roam-directory "~/org/roam")
-    (setq org-clock-persist 'history)
-    (org-clock-persistence-insinuate)
-    (setq org-capture-templates `(("t" "Todo" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Tasks")
-                                   "* TODO %?\n  %i\n  %a")
-	                                ("p" "Protocol (URL + clipboard)" entry (file+headline ,(expand-file-name "inbox.org" org-directory) "Inbox")
-                                   "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
-	                                ("L" "Protocol Link (URL only)" entry (file+headline ,(expand-file-name "inbox.org" org-directory) "Inbox")
-                                   "* %? [[%:link][%:description]] \nCaptured On: %U")
-                                  ))
-    ;; setup latex classes as komascript classes
-    (add-to-list 'org-latex-packages-alist
-                 '("AUTO" "babel" t ("pdflatex")))
-    (setq org-tag-alist '(("private"    . ?p)
-                          ("work"    . ?w)))
-    (setq org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js")
-    (setq org-re-reveal-revealjs-version "4")
-    (setq org-latex-classes '(("article" "\\documentclass[11pt]{scrartcl}"
-                          ("\\section{%s}" . "\\section*{%s}")
-                          ("\\subsection{%s}" . "\\subsection*{%s}")
-                          ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                          ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                          ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-                         ("report" "\\documentclass[11pt]{scrreport}"
-                          ("\\part{%s}" . "\\part*{%s}")
-                          ("\\chapter{%s}" . "\\chapter*{%s}")
-                          ("\\section{%s}" . "\\section*{%s}")
-                          ("\\subsection{%s}" . "\\subsection*{%s}")
-                          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))
-                         ("book" "\\documentclass[11pt]{scrbook}"
-                          ("\\part{%s}" . "\\part*{%s}")
-                          ("\\chapter{%s}" . "\\chapter*{%s}")
-                          ("\\section{%s}" . "\\section*{%s}")
-                          ("\\subsection{%s}" . "\\subsection*{%s}")
-                          ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (lisp . t)
-       (shell . t))))
-
   (setq olivetti-body-width 100)
 
-  (add-hook 'org-journal-after-header-create-hook
+  (require 'org)
+  (org-babel-load-file (expand-file-name "custom-user-config.org" dotspacemacs-directory))
+
+   (add-hook 'org-journal-after-header-create-hook
             (lambda ()
               (save-excursion
                 (let ((template "\n\n#+BEGIN: clocktable :scope subtree :maxlevel 2\n#+END:\n\n[[https://odoo.inoio.de/web?#page=0&limit=80&view_type=list&model=hr.analytic.timesheet&action=731][goto ODOO]]"))
@@ -652,16 +570,10 @@ you should place your code here."
   ;; automatically ident org-mode buffers
   (add-hook 'org-mode-hook 'org-indent-mode)
   ;; start the server on port 8080
-  (add-hook 'org-mode-hook 'org-roam-server-mode)
-  (add-hook 'kill-emacs-hook 'server-force-delete)
+  ;;(add-hook 'org-mode-hook 'org-roam-server-mode)
+  ;;(add-hook 'kill-emacs-hook 'server-force-delete)
   (add-hook 'org-mode-hook 'show-org-roam)
 
-  ;; UTF-8 support
-  (set-language-environment 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (setq locale-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (prefer-coding-system 'utf-8)
   )
 
 
