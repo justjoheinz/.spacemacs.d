@@ -588,13 +588,19 @@ you should place your code here."
     (setq org-roam-directory "~/org/roam")
     (setq org-clock-persist 'history)
     (org-clock-persistence-insinuate)
+    ;; automatically renumber and sort footnotes
+    (setq org-footnote-auto-adjust t)
     (setq org-capture-templates `(("t" "Todo" entry (file+headline ,(expand-file-name "notes.org" org-directory) "Tasks")
                                    "* TODO %?\n  %i\n  %a")
+
 	                                ("p" "Protocol (URL + clipboard)" entry (file+headline ,(expand-file-name "inbox.org" org-directory) "Inbox")
                                    "* %^{Title}\nSource: %u, %c\n #+BEGIN_QUOTE\n%i\n#+END_QUOTE\n\n\n%?")
 	                                ("L" "Protocol Link (URL only)" entry (file+headline ,(expand-file-name "inbox.org" org-directory) "Inbox")
                                    "* %? [[%:link][%:description]] \nCaptured On: %U")
+                                  ("c" "Contacts" entry ,(expand-file-name "inbox.org" org-directory) "* %(org-contacts-template-name)\n:PROPERTIES:\n:EMAIL: %(org-contacts-template-email)\n:PHONE:\n:NOTE:\n:PROJECT:\n:END:")
                                   ))
+    ;; setup org-contacts
+    (setq org-contacts-files (expand-file-name "contacts.org" org-directory))
     ;; setup latex classes as komascript classes
     (add-to-list 'org-latex-packages-alist
                  '("AUTO" "babel" t ("pdflatex")))
